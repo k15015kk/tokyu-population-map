@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@loaders.gl/core": "^4.0.3",
+    "@loaders.gl/csv": "^4.0.3",
+    "@loaders.gl/json": "^4.0.3",
     "maplibre-gl": "^3.6.1",
     "next": "14.0.2",
     "react": "^18",
     "react-dom": "^18",
-    "react-map-gl": "^7.1.6"
+    "react-map-gl": "^7.1.6",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "^20",

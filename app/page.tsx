@@ -1,10 +1,11 @@
 import MapLibre from "./components/MapLibre";
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <>
       <div className="absolute w-full h-full">
-        <MapLibre/>
+        <MapLibre />
       </div>
     </>
   )
