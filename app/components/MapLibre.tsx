@@ -3,17 +3,16 @@
 import Map, { NavigationControl, FullscreenControl, useControl, Source, FillLayer, Layer } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css';
 import useSWR from 'swr';
-import { CSVLoader } from '@loaders.gl/csv';
 import { JSONLoader } from '@loaders.gl/json';
 import { load } from '@loaders.gl/core';
 import { MapViewState } from '../types';
 
 // Properties
 const INITIAL_VIEW_STATE: MapViewState = {
-	longitude: 136.881637,
-	latitude: 35.170694,
+	longitude: 139.701111,
+	latitude: 35.658611,
 	zoom: 11,
-	pitch: 60,
+	pitch: 0,
 	bearing: 0
 };
 
@@ -23,7 +22,7 @@ async function jsonLoeader(key: string) {
 
 export default function MapLibre() {
 
-	const {data, error } = useSWR('https://raw.githubusercontent.com/k15015kk/tokyu-geodata-storage/main/13tokyo1km.geojson', jsonLoeader)
+	const { data } = useSWR('https://raw.githubusercontent.com/k15015kk/tokyu-geodata-storage/main/13tokyo1km.geojson', jsonLoeader)
 
 	const testLayer: FillLayer = {
 		id: "test_layer",

@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@loaders.gl/core": "^4.0.3",
-    "@loaders.gl/csv": "^4.0.3",
     "@loaders.gl/json": "^4.0.3",
+    "d3-dsv": "^3.0.1",
     "maplibre-gl": "^3.6.1",
     "next": "14.0.2",
     "react": "^18",
