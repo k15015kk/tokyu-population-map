@@ -1,6 +1,6 @@
 'use client'
 
-import MapLibre from "./components/MapLibre";
+import MapLibre from "../components/MapLibre";
 
 export default function Home() {
 
