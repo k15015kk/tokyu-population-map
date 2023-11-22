@@ -1,4 +1,4 @@
-import { PopulationData } from "@/app/types"
+import { MeshFeature, MeshGeoJson, Population } from "@/app/types"
 import { _GeoJSONWriterOptions } from "@loaders.gl/json"
 import { Feature, FeatureCollection, GeoJsonObject } from "geojson"
 
@@ -9,17 +9,17 @@ export async function  GET() {
     const populationRes = await fetch('https://raw.githubusercontent.com/k15015kk/tokyu-geodata-storage/main/population_tokyo_json/2019/06/monthly_mdp_mesh1km.json', {
         cache: "no-store"
     })
-    const populationData: Array<PopulationData> = await populationRes.json()
-    const filteringPopulationData: Array<PopulationData> = populationData.filter((data) => data.dayflag === dayflag && data.timezone === timezone)
+    const populationData: Array<Population> = await populationRes.json()
+    const filteringPopulationData: Array<Population> = populationData.filter((data) => data.dayflag === dayflag && data.timezone === timezone)
 
     const meshGeoJsonRes = await fetch('https://raw.githubusercontent.com/k15015kk/tokyu-geodata-storage/main/13tokyo1km_epsg6668.geojson', {
         cache: "no-store"
     })
     
-    const meshGeoJsonData: FeatureCollection = await meshGeoJsonRes.json()
-    const features: Array<Feature> = meshGeoJsonData.features
+    const meshGeoJsonData: MeshGeoJson = await meshGeoJsonRes.json()
+    const features: Array<MeshFeature> = meshGeoJsonData.features
 
-    const data: Array<Feature> = features.map((feature) => {
+    const featuresWithPopulation: Array<Feature> = features.map((feature) => {
         const populationData = filteringPopulationData.find((data) => data.mesh1kmid === feature.properties.code)
 
         return {
@@ -29,8 +29,13 @@ export async function  GET() {
                 ...feature.properties,
                 population: Number(populationData?.population)
             }
-        }
-    })
+        } as Feature
+    }).filter((data) => !Number.isNaN(data.properties.population))
 
-    return Response.json({data})
+    const geojson = {
+        type: "FeatureCollection",
+        features: featuresWithPopulation
+    }
+
+    return Response.json({geojson})
 }
