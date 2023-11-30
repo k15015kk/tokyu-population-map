@@ -36,4 +36,19 @@ export type MeshFeature = {
     properties: MeshProperties
 }
 
+export type MapProps = {
+    data: TargetDataProps,
+    legend: LegendProps
+}
 
+export type LegendProps = {
+    items: Array<number>,
+    colors: Array<string>
+}
+
+export type TargetDataProps = {
+    year: number,
+    month: number,
+    dayflag: number,
+    timezone: number
+}

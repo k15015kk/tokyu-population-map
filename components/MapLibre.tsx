@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import useSWR from 'swr';
 import { JSONLoader } from '@loaders.gl/json';
 import { load } from '@loaders.gl/core';
-import { MapViewState } from '../app/types';
+import { MapProps, MapViewState } from '../app/types';
 import { Feature, FeatureCollection } from 'geojson';
 
 // Properties
@@ -21,9 +21,10 @@ async function jsonLoeader(key: string) {
 	return await fetch(key).then((res) => res.json()).then((json) => json.geojson); 
 }
 
-export default function MapLibre() {
+export default function MapLibre(props: MapProps) {
 
-	const { data } = useSWR('/api/test', jsonLoeader)
+	const { data } = useSWR(`/api/data/${props.data.year}/${props.data.month}?dayflag=${props.data.dayflag}&timezone=${props.data.timezone}`, jsonLoeader)
+	const legends = props.legend.items.map((value, index) => [value, props.legend.colors[index]]).flat()
 
 	const testLayer: FillLayer = {
 		id: "test_layer",
@@ -33,14 +34,7 @@ export default function MapLibre() {
 				'interpolate',
 				['linear'],
 				['get', 'population'],
-				0,
-				'#0079FF',
-				5000,
-				'#00DFA2',
-				10000,
-				'#F6FA70',
-				50000,
-				'#FF0060'
+				...legends
 			],
 			'fill-opacity': 0.5,
 			'fill-outline-color': '#FFFFFF'
